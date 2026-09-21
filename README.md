@@ -34,6 +34,24 @@ For some added fun, there is a "git golf" concept where we keep track of how man
 
 You can share a link to LearnGitBranching with an arbitrary set of commands that will execute upon load by using the `command` URL parameter. You will also likely want to disable the intro dialog for this case with the `NODEMO` url param; here is [an example](https://learngitbranching.js.org/?NODEMO&command=echo%20%22hello%22;%20git%20commit) to get started.
 
+### Embedding in an iframe
+
+LearnGitBranching can be embedded in another page with an iframe pointing at https://learngitbranching.js.org/. Use a responsive wrapper so the embedded app keeps a sensible aspect ratio at any width:
+
+```html
+<div style="overflow:hidden; padding-top:56.25%; position:relative;">
+  <iframe
+    src="https://learngitbranching.js.org/"
+    allow="fullscreen"
+    style="position:absolute; top:0; left:0; width:100%; height:100%;"
+    width="100%"
+    height="100%">
+  </iframe>
+</div>
+```
+
+Clicking inside the embedded app moves keyboard focus to its command input, which can nudge the host page's scroll position so the frame appears to jump upward. If you notice this, give the iframe (or its wrapper) a fixed scroll container or a `scroll-margin` on the host page so the embedded frame stays in view after a click.
+
 ### Level Builder
 
 You can build levels with the `build level` command. A dialog will walk you through the process, and at the end it will show you a JSON blob that represents the level you just created. Paste that in a [gist](https://gist.github.com) or directly into an issue and I can check it out / merge in your changes! You can also share this level directly with friends by having them run `import level` and paste the JSON in the resulting text field, or simply send them a custom URL with the gist ID in the parameters, like so:
