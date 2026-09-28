@@ -159,7 +159,8 @@ class CommandPromptView {
   }
 
   focus() {
-    this.$('#commandTextField').focus();
+    var el = this.$('#commandTextField')[0];
+    if (el) { el.focus({preventScroll: true}); }
     this.showCursor();
   }
 
@@ -450,7 +451,7 @@ class CommandPromptView {
     this.setTextField(value);
     var el = this.$('#commandTextField')[0];
     if (el) {
-      el.focus();
+      el.focus({preventScroll: true});
       el.selectionStart = el.selectionEnd = value.length;
       this.updatePrompt(el);
     }
