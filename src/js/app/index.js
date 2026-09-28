@@ -160,7 +160,8 @@ exports.getLocaleDirection = function(locale) {
 var initRootEvents = function(eventBaton) {
   // we always want to focus the text area to collect input
   var focusTextArea = function() {
-    $('#commandTextField').focus();
+    var el = document.getElementById('commandTextField');
+    if (el) { el.focus({preventScroll: true}); }
   };
   focusTextArea();
 

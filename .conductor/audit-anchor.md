@@ -12,38 +12,46 @@ path is reserved, and a push whose payload contains it is refused.
 ## The anchor
 
 ```
-chain head sequence      46916
-chain head hash          27fcef46cef05ea133f207d2904c153350602341b0992f0abf87233649f8f362
-head row written at      2026-09-21T20:44:50.682Z
+chain head sequence      49015
+chain head hash          7d4af60ab96e83d4d0568c52e35dd951be7a8cce78f98cfa02d380391c33eeeb
+head row written at      2026-09-28T08:59:54.422Z
 chain genesis at         2026-06-26T10:52:06.958Z
-published at             2026-09-21T20:44:54.659Z
+published at             2026-09-28T08:59:59.361Z
 published into           Rastamasta1/learnGitBranching
-carried by intent        5658f72a-bc99-4c97-a8fd-fff76ea691eb
-cockpit build            8bce257
+carried by intent        d18ecc73-f666-4502-977b-e13261983fc3
+cockpit build            a5629b43
 ```
 
 ## The previous anchor, so a gap is visible
 
-**This is the first anchor published into this repository.** Nothing
-before it is anchored here. Later anchors will name this one, so any
-gap after this point is visible in this file's git history.
+```
+previous head sequence   46916
+previous head hash       27fcef46cef05ea133f207d2904c153350602341b0992f0abf87233649f8f362
+previous published at    2026-09-21T20:44:57.661Z
+audit rows added since   2099
+```
+
+Consecutive anchors form their own chain inside this repository. If the
+gap above is larger than you expect, that is the point: it is how a
+period with no anchor becomes visible instead of silent. Every previous
+anchor is in this file's git history — `git log .conductor/audit-anchor.md`.
 
 ## What this proves
 
-- Every audit row up to sequence 46916 hashes, in order, to the head
+- Every audit row up to sequence 49015 hashes, in order, to the head
   hash above. Each row's hash covers the previous row's hash, so the
   sequence cannot be reordered, and no row can be removed from the middle
   without the following hashes disagreeing.
 - This file is committed to this repository, so the hash above existed at
   this commit's date — a date recorded in this repository's history, which
   Atrytone does not administer and cannot rewrite.
-- Therefore any later edit to any audit row at or below sequence 46916
+- Therefore any later edit to any audit row at or below sequence 49015
   makes Atrytone's recomputed head disagree with the hash committed here,
   and the disagreement is detectable by anyone holding this file.
 
 ## What this does NOT prove
 
-- It says nothing about rows written BEFORE the genesis above. 2395
+- It says nothing about rows written BEFORE the genesis above. 2442
   rows lost their run attribution before the chain existed, and that is
   unrepairable: the identifiers are gone and nothing recorded what they were.
 - It does not prove COMPLETENESS. A chain shows that nothing recorded was
@@ -55,10 +63,11 @@ gap after this point is visible in this file's git history.
   and nothing about whose they are.
 - It anchors MOMENTS, NOT TIME. A head is published when Atrytone's broker
   pushes to this repository, and at no other time. Between two anchors
-  Atrytone was running and was not anchored here. Atrytone also has a
-  fallback path in which its worker pushes directly, without the broker;
-  such a push carries no anchor at all. Do not read the presence of this
-  file on some commits as a guarantee that every commit has one.
+  Atrytone was running and was not anchored here. Since 2026-08-19
+  Atrytone's worker has no way to push here except through the broker. A
+  commit that is not a brokered push (a merge, a person's own commit)
+  carries no anchor of its own. Do not read the presence of this file on
+  some commits as a guarantee that every commit has one.
 
 ## How to check it
 
@@ -66,6 +75,6 @@ gap after this point is visible in this file's git history.
 2. Ask Atrytone to recompute the chain over the same range. Its
    `verify_audit_chain()` walks every row in sequence order, recomputing
    each row's hash from the row's own contents and the previous hash.
-3. The head it produces for sequence 46916 must equal the hash above.
+3. The head it produces for sequence 49015 must equal the hash above.
    If it does not, something at or below that sequence changed after this
    commit was made.
